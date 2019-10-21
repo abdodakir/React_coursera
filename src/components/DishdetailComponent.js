@@ -20,14 +20,16 @@ class DishdetailComponent extends Component {
 
     renderComments = (comments) => {
         if (comments.length > 0 ){
-            console.log(comments)
             return comments.map((comm) => {
+                const options = {day: 'numeric', month: 'short', year: 'numeric'};
+                const date = new Date(comm.date).toLocaleDateString('en-Us', options);
                 return (
-                    <div key={comm.id}>
-                        <CardText>{comm.comment}</CardText>
-                        <CardText>{"-- "+comm.author}, {new Date(comm.date).toDateString()}</CardText>
-                        <CardText></CardText>
-                    </div>
+                    <li key={comm.id} className="mb-3">
+                        {comm.comment}
+                        <div className="mt-3">
+                            -- {comm.author}, {date}
+                        </div>
+                    </li>
                 );
             })
         }else{
@@ -48,7 +50,9 @@ class DishdetailComponent extends Component {
                         </div>
                         <div className="col-12 col-md-5 m-1">
                             <h4>Comments</h4>
-                            {this.renderComments(dish.comments)}
+                            <ul className="list-unstyled">
+                                {this.renderComments(dish.comments)}
+                            </ul>
                         </div>
                     </>
                 :
