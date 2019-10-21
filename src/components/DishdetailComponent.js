@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
 
 class DishdetailComponent extends Component {
-    constructor(props){
-        super(props);
-    };
 
     renderDish = (dish) => {
         return (
@@ -41,9 +38,10 @@ class DishdetailComponent extends Component {
 
     render() {
         const dish = this.props.dish;
+        console.log(dish)
         return (
             <div className="row" >
-                {dish !== null ? 
+                {dish !== null && dish !== undefined ? 
                     <>
                         <div className="col-12 col-md-5 m-1">
                             {this.renderDish(dish)}
