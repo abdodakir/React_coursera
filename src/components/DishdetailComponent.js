@@ -5,16 +5,23 @@ import { Link } from 'react-router-dom';
 import { Control, LocalForm, Errors, } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { Fade, FadeTransform, Stagger } from 'react-animation-components'
 
 function RenderDish({dish}) {
     return (
-        <Card>
-            <CardImg width="100%" object src={baseUrl + dish.image} alt={dish.name} />
-            <CardBody>
-                <CardTitle>{dish.name}</CardTitle>
-                <CardText>{dish.description}</CardText>
-            </CardBody>
-        </Card>
+        <FadeTransform in
+            transformProps= {{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}
+        >
+            <Card>
+                <CardImg width="100%" object src={baseUrl + dish.image} alt={dish.name} />
+                <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                </CardBody>
+            </Card>
+        </FadeTransform>
     );
 };
 
@@ -25,15 +32,19 @@ function RenderComments({comments, postComment, dishId}) {
             <div className="col-12 col-md-5 m-1" > 
                 <h4>Comments</h4>
                 <ul className="list-unstyled" >
-                    {comments.map((comm) => {
-                        const date = new Date(comm.date).toLocaleDateString('en-Us', options);
-                        return (
-                            <li key={comm.id}>
-                                <p>{comm.comment}</p>
-                                <p>-- {comm.author}, {date}</p>
-                            </li>
-                        );
-                    })}
+                    <Stagger in>
+                        {comments.map((comm) => {
+                            const date = new Date(comm.date).toLocaleDateString('en-Us', options);
+                            return (
+                                <Fade in>
+                                    <li key={comm.id}>
+                                        <p>{comm.comment}</p>
+                                        <p>-- {comm.author}, {date}</p>
+                                    </li>
+                                </Fade>
+                            );
+                        })}
+                    </Stagger>
                 </ul>
                 <CommentForm dishId={dishId} postComment={postComment} />
             </div>
